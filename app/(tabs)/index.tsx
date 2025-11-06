@@ -1,39 +1,39 @@
-import React from 'react';
-import { StyleSheet, View, Text, FlatList, SafeAreaView } from 'react-native';
+import { Colors } from '@/constants/colors';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
-interface Task  {
-  id: string;
-  title: string;
-  description: string;
-  status: string;
-}
-
-const tasks = [
-  { id: '1', title: 'Task 1', description: 'Fix the leaky faucet in the main bathroom.', status: 'Open' },
-  { id: '2', title: 'Task 2', description: 'Install a new ceiling fan in the living room.', status: 'In Progress' },
-  { id: '3', title: 'Task 3', description: 'Repair the broken window in the kitchen.', status: 'Closed' },
-  { id: '4', title: 'Task 4', description: 'Paint the bedroom walls.', status: 'Open' },
-  { id: '5', title: 'Task 5', description: 'Fix the electrical outlet in the office.', status: 'Open' },
-];
-
-const TaskCard = ({ task }: { task: Task }) => (
-  <View style={styles.card}>
-    <Text style={styles.cardTitle}>{task.title}</Text>
-    <Text style={styles.cardDescription}>{task.description}</Text>
-    <Text style={styles.cardStatus}>{task.status}</Text>
-  </View>
-);
 
 export default function HomeScreen() {
+  const [selectedButton, setSelectedButton] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState('');
+
+
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={tasks}
-        renderItem={({ item }) => <TaskCard task={item} />}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.list}
-      />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <View
+          style={styles.header}
+        >
+          <View className='flex flex-row ml-auto mr-auto justify-between w-full items-center'>
+            <Text className="text-3xl font-bold text-gray-900 pb-8">Work<Text className='text-primary-light'>Bagel</Text></Text>
+            <TouchableOpacity className='pb-8' onPress={() => router.push('/profile')}>
+              <Image className='w-12 h-12 border-2 border-primary rounded-full' />
+            </TouchableOpacity>
+          </View>
+          <TextInput
+            className='bg-primary p-6 rounded-full h-16 font-normal text-xl mb-4'
+            placeholder="Search technicians..."
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholderTextColor={Colors.text.primary}
+          />
+        </View>
+
+
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
@@ -44,30 +44,58 @@ const styles = StyleSheet.create({
   },
   list: {
     padding: 20,
+    paddingBottom: 100, // Add extra padding to account for tab bar (84px height + 16px buffer)
   },
-  card: {
-    backgroundColor: 'white',
+  header: {
     padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    shadowRadius: 8,
+    elevation: 5,
   },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 8,
   },
-  cardDescription: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 10,
+  button: {
+    padding: 14,
+    borderRadius: 20,
+    backgroundColor: '#eee',
+    flex: 1,
+    alignItems: 'center',
   },
-  cardStatus: {
+  buttonSelected: {
+    backgroundColor: Colors.primary.DEFAULT,
+  },
+  buttonText: {
     fontSize: 12,
-    color: 'blue',
-    marginTop: 10,
+    fontWeight: '600',
+    color: Colors.text.primary,
+  },
+  buttonTextSelected: {
+    color: Colors.secondary.DEFAULT,
+    fontWeight: '700',
+  },
+  emptyContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 60,
+  },
+  emptyText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: Colors.text.secondary,
+    marginBottom: 8,
+  },
+  emptySubtext: {
+    fontSize: 14,
+    color: Colors.text.light,
   },
 });

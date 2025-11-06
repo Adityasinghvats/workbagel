@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Brand Color Variables */
+:root {
+  --color-primary: #EAB308;        /* Yellow */
+  --color-primary-light: #FDE047;
+  --color-primary-dark: #CA8A04;
+  
+  --color-secondary: #111827;      /* Gray 900 */
+  --color-secondary-light: #1F2937;
+  --color-secondary-dark: #030712;
+  
+  --color-background: #FFFFFF;
+  --color-surface: #F9FAFB;
+  --color-border: #E5E7EB;
+  
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-light: #9CA3AF;
+}
+
+/* Base styles for consistency */
+@layer base {
+  body {
+    @apply bg-background text-text-primary;
+  }
+}
+
+/* Reusable component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-secondary font-semibold py-3 px-6 rounded-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-white font-semibold py-3 px-6 rounded-lg;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-border p-4;
+  }
+  
+  .input-field {
+    @apply border border-border rounded-lg px-4 py-3 text-text-primary bg-white;
+  }
+  
+  .text-heading {
+    @apply text-secondary font-bold;
+  }
+  
+  .text-body {
+    @apply text-text-primary;
+  }
+  
+  .text-caption {
+    @apply text-text-secondary text-sm;
+  }
+}
