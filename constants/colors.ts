@@ -19,6 +19,12 @@ export const Colors = {
         dark: '#030712',
     },
 
+    tertiary: {
+        DEFAULT: '#235789',
+        light: '#3B82F6',
+        dark: '#1E40AF',
+    },
+
     // Accent (same as primary)
     accent: '#EAB308',
 
@@ -59,3 +65,4 @@ export const SECONDARY_COLOR = Colors.secondary.DEFAULT;
 export const ACCENT_COLOR = Colors.accent;
 export const BACKGROUND_COLOR = Colors.background.DEFAULT;
 export const TEXT_COLOR = Colors.text.primary;
+export const TERTIARY_COLOR = Colors.tertiary.DEFAULT;

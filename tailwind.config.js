@@ -20,6 +20,11 @@ module.exports = {
                     light: "#1F2937",   // gray-800
                     dark: "#030712",    // gray-950
                 },
+                tertiary: {
+                    DEFAULT: "#235789", // blue-800
+                    light: "#3B82F6",   // blue-500
+                    dark: "#1E40AF",    // blue-900
+                },
                 // Additional utility colors
                 accent: "#EAB308",      // yellow (same as primary)
                 background: "#FFFFFF",  // white

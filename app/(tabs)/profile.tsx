@@ -15,10 +15,10 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 export default function ProfileScreen() {
   const [profileData] = useState({
-    name: 'John Doe',
+    name: 'Aditya Kumar',
     address: '123 Main Street, New York, NY 10001',
     bagels: 24,
-    profileImage: 'https://via.placeholder.com/150',
+    profileImage: "https://res.cloudinary.com/dixnvhqxl/image/upload/v1760776218/ibmwys2avnjbfrtpozxi.png",
   });
 
   const handleLogout = () => {
