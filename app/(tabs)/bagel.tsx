@@ -99,7 +99,7 @@ export default function HomeScreen() {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <Text className="text-4xl font-bold text-gray-900 pb-8"><Text className='text-primary'>Bagels</Text> For You</Text>
+                    <Text className="text-4xl font-bold text-gray-900 pb-8">Your Bagels</Text>
                     <TextInput
                         className='bg-gray-200 pl-8 rounded-full h-16 font-thin text-xl mb-4'
                         placeholder="Search bagels..."
@@ -157,16 +157,11 @@ const styles = StyleSheet.create({
     },
     header: {
         padding: 20,
-        backgroundColor: '#fff',
+        backgroundColor: Colors.accent,
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
         borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 8,
-        elevation: 5,
+        borderBottomRightRadius: 30
     },
     buttonContainer: {
         flexDirection: 'row',

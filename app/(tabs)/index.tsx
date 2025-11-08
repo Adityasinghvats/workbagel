@@ -1,4 +1,4 @@
-import { CategoryCard } from '@/components/CategoryCard';
+import CategoryCard from '@/components/CategoryCard';
 import { Colors } from '@/constants/colors';
 import { Icons } from '@/constants/icons';
 import { router } from 'expo-router';
@@ -19,7 +19,7 @@ export default function HomeScreen() {
           style={styles.header}
         >
           <View className='flex flex-row ml-auto mr-auto justify-between w-full items-center'>
-            <Text className="text-4xl font-bold text-gray-900 pb-8">Work<Text className='text-primary'>Bagel</Text></Text>
+            <Text className="text-4xl font-bold text-gray-900 pb-8">WorkBagel</Text>
             <TouchableOpacity className='pb-8' onPress={() => router.push('/profile')}>
               <Image source={{ uri: "https://res.cloudinary.com/dixnvhqxl/image/upload/v1760776218/ibmwys2avnjbfrtpozxi.png" }} className='w-12 h-12 border-2 border-primary rounded-full' />
             </TouchableOpacity>
@@ -36,7 +36,7 @@ export default function HomeScreen() {
           className='flex-1 mt-5 ml-6'
           showsVerticalScrollIndicator={false}
         >
-          <View className='bg-tertiary-light h-48 max-w-full mr-6 rounded-3xl overflow-hidden'>
+          <View className='bg-tertiary h-48 max-w-full mr-6 rounded-3xl overflow-hidden'>
             <View className='flex-row flex-1'>
               {/* Left side - Image (50%) */}
               <View className='w-1/3'>
@@ -74,24 +74,20 @@ export default function HomeScreen() {
               <CategoryCard
                 image={Icons.setting}
                 text="AC Service & Repair"
-                onPress={() => console.log('AC Service & Repair')}
               />
               <CategoryCard
                 image={Icons.mechanic}
                 text="Appliance Repair & Service"
-                onPress={() => console.log('Electrical')}
               />
 
               {/* Row 2 - 2 normal cards */}
               <CategoryCard
                 image={Icons.drill}
                 text="Electrician & Plumber"
-                onPress={() => console.log('Electrician & Plumber')}
               />
               <CategoryCard
                 image={Icons.paintroller}
                 text="Full Home Makeover"
-                onPress={() => console.log('Full Home Makeover')}
               />
 
               {/* Row 3 - 3 small cards */}
@@ -99,19 +95,16 @@ export default function HomeScreen() {
                 image={Icons.washingmachine}
                 text="Pest Control"
                 size="small"
-                onPress={() => console.log('Pest Control')}
               />
               <CategoryCard
                 image={Icons.mechanic}
                 text="Gardening"
                 size="small"
-                onPress={() => console.log('Gardening')}
               />
               <CategoryCard
                 image={Icons.drill}
                 text="AC Repair"
                 size="small"
-                onPress={() => console.log('AC Repair')}
               />
             </View>
           </View>
@@ -126,22 +119,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  list: {
-    padding: 20,
-    paddingBottom: 100, // Add extra padding to account for tab bar (84px height + 16px buffer)
-  },
   header: {
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.accent,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
   },
   buttonContainer: {
     flexDirection: 'row',

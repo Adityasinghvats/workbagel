@@ -1,4 +1,5 @@
 import { Colors, PRIMARY_COLOR } from '@/constants/colors';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Dimensions, Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -9,12 +10,16 @@ interface CategoryCardProps {
     size?: 'normal' | 'small';
 }
 
-export const CategoryCard: React.FC<CategoryCardProps> = ({
-    image,
-    text,
-    onPress,
-    size = 'normal',
-}) => {
+export default function CategoryCard({ image, text, onPress, size = 'normal' }: CategoryCardProps) {
+    const router = useRouter();
+    const handlePress = () => {
+        if (onPress) {
+            onPress();
+        } else {
+            //send an id which can find out if its category and icon
+            router.push(`/category/${text}`);
+        }
+    };
     const screenWidth = Dimensions.get('window').width;
     const horizontalPadding = 48; // ml-6 + mr-6
     const gap = 16; // gap-4
@@ -27,7 +32,7 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({
     return (
         <TouchableOpacity
             style={[styles.card, { width: cardWidth }]}
-            onPress={onPress}
+            onPress={handlePress}
             activeOpacity={0.7}
         >
             <View style={[size === 'small' && styles.iconCircleSmall]}>
@@ -48,12 +53,7 @@ const styles = StyleSheet.create({
         padding: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 12,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.08,
-        shadowRadius: 4,
-        elevation: 3,
+        gap: 12
     },
     iconCircle: {
         width: 64,

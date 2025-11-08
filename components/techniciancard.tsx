@@ -1,24 +1,21 @@
-import { Colors } from '@/constants/colors';
+import { Colors, PRIMARY_COLOR } from '@/constants/colors';
 import { Task } from '@/interfaces/type';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-interface TaskCardProps {
+
+interface TechnicianCardProps {
     task: Task;
     onPress?: () => void;
 }
 
-export default function TaskCard({ task, onPress }: TaskCardProps) {
+export default function TechnicianCard({ task, onPress }: TechnicianCardProps) {
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'Open':
+            case 'inactive':
                 return Colors.status.info;
-            case 'In Progress':
-                return Colors.primary.DEFAULT;
-            case 'Closed':
-                return Colors.status.success;
             default:
                 return Colors.text.light;
         }
@@ -54,7 +51,7 @@ export default function TaskCard({ task, onPress }: TaskCardProps) {
         if (onPress) {
             onPress();
         } else {
-            router.push(`/task/${task.id}`);
+            router.push(`/tech/${task.id}`);
         }
     };
 
@@ -67,7 +64,7 @@ export default function TaskCard({ task, onPress }: TaskCardProps) {
             {/* Top Section - Title and Status */}
             <View style={styles.header}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title} numberOfLines={1}>
+                    <Text className='text-xl font-bold' numberOfLines={1}>
                         {task.title}
                     </Text>
                     {task.priority && (
@@ -80,12 +77,6 @@ export default function TaskCard({ task, onPress }: TaskCardProps) {
                         </View>
                     )}
                 </View>
-
-                <View style={[styles.statusBadge, { backgroundColor: getStatusColor(task.status) + '20' }]}>
-                    <Text style={[styles.statusText, { color: getStatusColor(task.status) }]}>
-                        {task.status}
-                    </Text>
-                </View>
             </View>
 
             {/* Description */}
@@ -95,36 +86,23 @@ export default function TaskCard({ task, onPress }: TaskCardProps) {
 
             {/* Bottom Section - Metadata */}
             <View style={styles.footer}>
-                <View style={styles.metaContainer}>
-                    {task.dueDate && (
-                        <View style={styles.metaItem}>
-                            <Ionicons name="calendar-outline" size={14} color={Colors.text.secondary} />
-                            <Text style={styles.metaText}>{task.dueDate}</Text>
-                        </View>
-                    )}
-
-                    {task.assignee && (
-                        <View style={styles.metaItem}>
-                            <Ionicons name="person-outline" size={14} color={Colors.text.secondary} />
-                            <Text style={styles.metaText}>{task.assignee}</Text>
-                        </View>
-                    )}
+                <View>
+                    <Text className='text-md font-bold'>{`Starting at ₹549 · 45 mins`}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.actionButton} onPress={handlePress}>
-                    <Ionicons name="chevron-forward" size={20} color={Colors.primary.DEFAULT} />
+                <TouchableOpacity className='bg-tertiary-light pl-4 pr-4 py-2 rounded-3xl' onPress={handlePress}>
+                    <Text className='text-white text-md font-bold'>Book</Text>
                 </TouchableOpacity>
             </View>
 
-            {/* Accent Border */}
-            <View style={[styles.accentBorder, { backgroundColor: getStatusColor(task.status) }]} />
+
         </TouchableOpacity>
     );
 }
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: PRIMARY_COLOR + '50',
         borderRadius: 16,
         padding: 16,
         marginBottom: 16,

@@ -184,24 +184,19 @@ export default function ProfileScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F2F2F7',
+    backgroundColor: '#f5f5f5',
   },
   scrollView: {
     flex: 1,
     marginTop: 5,
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: Colors.accent,
     paddingTop: 30,
     paddingBottom: 30,
     alignItems: 'center',
     borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
+    borderBottomRightRadius: 30
   },
   profileImageContainer: {
     position: 'relative',
@@ -250,12 +245,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 3,
+    justifyContent: 'space-around'
   },
   statItem: {
     alignItems: 'center',
@@ -293,11 +283,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
   },
   menuItem: {
     flexDirection: 'row',
@@ -338,12 +323,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 16,
     borderRadius: 12,
-    gap: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    gap: 10
   },
   logoutText: {
     fontSize: 16,
