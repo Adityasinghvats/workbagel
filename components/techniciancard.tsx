@@ -1,10 +1,8 @@
 import { Colors, PRIMARY_COLOR } from '@/constants/colors';
 import { Task } from '@/interfaces/type';
-import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface TechnicianCardProps {
     task: Task;
@@ -12,41 +10,6 @@ interface TechnicianCardProps {
 }
 
 export default function TechnicianCard({ task, onPress }: TechnicianCardProps) {
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'inactive':
-                return Colors.status.info;
-            default:
-                return Colors.text.light;
-        }
-    };
-
-    const getPriorityIcon = (priority?: string) => {
-        switch (priority) {
-            case 'High':
-                return 'alert-circle';
-            case 'Medium':
-                return 'warning';
-            case 'Low':
-                return 'information-circle';
-            default:
-                return null;
-        }
-    };
-
-    const getPriorityColor = (priority?: string) => {
-        switch (priority) {
-            case 'High':
-                return Colors.status.error;
-            case 'Medium':
-                return Colors.status.warning;
-            case 'Low':
-                return Colors.status.info;
-            default:
-                return Colors.text.light;
-        }
-    };
-
     const handlePress = () => {
         if (onPress) {
             onPress();
@@ -64,18 +27,15 @@ export default function TechnicianCard({ task, onPress }: TechnicianCardProps) {
             {/* Top Section - Title and Status */}
             <View style={styles.header}>
                 <View style={styles.titleContainer}>
-                    <Text className='text-xl font-bold' numberOfLines={1}>
-                        {task.title}
-                    </Text>
-                    {task.priority && (
-                        <View style={styles.priorityBadge}>
-                            <Ionicons
-                                name={getPriorityIcon(task.priority) as any}
-                                size={12}
-                                color={getPriorityColor(task.priority)}
-                            />
-                        </View>
-                    )}
+                    <Image source={{ uri: "https://res.cloudinary.com/dixnvhqxl/image/upload/v1760776218/ibmwys2avnjbfrtpozxi.png" }} className='w-12 h-12 border-2 border-primary rounded-full' />
+                    <View className='flex flex-col ml-4'>
+                        <Text className='text-lg font-bold' numberOfLines={2}>
+                            Aditya Kumar
+                        </Text>
+                        <Text className='text-md font-thin gap-4' numberOfLines={2}>
+                            {`${4.8} ★    ${150} Bookings Till Date`}
+                        </Text>
+                    </View>
                 </View>
             </View>
 
@@ -89,13 +49,10 @@ export default function TechnicianCard({ task, onPress }: TechnicianCardProps) {
                 <View>
                     <Text className='text-md font-bold'>{`Starting at ₹549 · 45 mins`}</Text>
                 </View>
-
                 <TouchableOpacity className='bg-tertiary-light pl-4 pr-4 py-2 rounded-3xl' onPress={handlePress}>
                     <Text className='text-white text-md font-bold'>Book</Text>
                 </TouchableOpacity>
             </View>
-
-
         </TouchableOpacity>
     );
 }

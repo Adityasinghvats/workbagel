@@ -8,9 +8,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function HomeScreen() {
-  const [selectedButton, setSelectedButton] = useState<number>(0);
   const [searchQuery, setSearchQuery] = useState('');
-
 
   return (
     <SafeAreaProvider>

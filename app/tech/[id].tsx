@@ -1,14 +1,16 @@
+import SlotCard from '@/components/slot-card';
 import { PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function TaskDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
+    const [selectedSlot, setSelectedSlot] = React.useState<number | null>(null);
 
     // Mock task data - replace with actual data fetching
     const task = {
@@ -22,24 +24,35 @@ export default function TaskDetailScreen() {
         createdDate: '2024-03-01',
         category: 'Documentation',
     };
-
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'Open': return '#3B82F6';
-            case 'In Progress': return PRIMARY_COLOR;
-            case 'Closed': return '#10B981';
-            default: return '#6B7280';
+    const slots = [
+        {
+            date: '2025-11-16',
+            startTime: '4:40 am',
+            endTime: '4:40 pm',
+            totalCost: 89,
+        },
+        {
+            date: new Date(),
+            startTime: '10:00 am',
+            endTime: '12:00 pm',
+            totalCost: '$120 ',
+        },
+        {
+            date: '2025-11-18',
+            startTime: '1:00 pm',
+            endTime: '3:00 pm',
+            totalCost: 75,
+        },
+        {
+            date: '2025-11-20',
+            startTime: '9:00 am',
+            endTime: '11:00 am',
+            totalCost: 95,
         }
-    };
-
-    const getPriorityColor = (priority: string) => {
-        switch (priority) {
-            case 'High': return '#EF4444';
-            case 'Medium': return '#F59E0B';
-            case 'Low': return '#3B82F6';
-            default: return '#6B7280';
-        }
-    };
+    ];
+    const handleBooking = () => {
+        console.log('Booking confirmed for slot:', selectedSlot);
+    }
 
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
@@ -51,7 +64,6 @@ export default function TaskDetailScreen() {
                 >
                     <Ionicons name="arrow-back" size={24} color={SECONDARY_COLOR} />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Task Details</Text>
                 <TouchableOpacity className='p-2 bg-accent rounded-full'>
                     <Ionicons name="ellipsis-horizontal" size={24} color={SECONDARY_COLOR} />
                 </TouchableOpacity>
@@ -67,22 +79,23 @@ export default function TaskDetailScreen() {
                     entering={FadeInDown.delay(100).duration(400)}
                     style={styles.section}
                 >
-                    <Text style={styles.title}>{`Technicians`}</Text>
-                    <View style={styles.badges}>
-                        <View style={[styles.badge, { backgroundColor: getStatusColor(task.status) + '20' }]}>
-                            <Text style={[styles.badgeText, { color: getStatusColor(task.status) }]}>
-                                {task.status}
-                            </Text>
-                        </View>
-                        <View style={[styles.badge, { backgroundColor: getPriorityColor(task.priority) + '20' }]}>
-                            <Ionicons
-                                name="alert-circle"
-                                size={14}
-                                color={getPriorityColor(task.priority)}
-                            />
-                            <Text style={[styles.badgeText, { color: getPriorityColor(task.priority) }]}>
-                                {task.priority}
-                            </Text>
+                    <View className='flex flex-col items-center justify-center'>
+                        <Image source={{ uri: "https://res.cloudinary.com/dixnvhqxl/image/upload/v1760776218/ibmwys2avnjbfrtpozxi.png" }} className='w-32 h-32 border-2 border-primary rounded-full' />
+                        <Text className='text-3xl font-semibold pt-4'>{`Aditya Kumar`}</Text>
+                        <Text className='text-lg text-gray-600'>{task.category}</Text>
+                        <View className='flex flex-row px-4 mt-4'>
+                            <View className='bg-primary rounded-2xl px-4 py-4 m-2 w-1/3 justify-center items-center'>
+                                <Text className='text-xl font-bold' numberOfLines={2}>{1120}</Text>
+                                <Text className='text-gray-600' numberOfLines={2}>Bookings</Text>
+                            </View>
+                            <View className='bg-primary rounded-2xl px-4 py-4 m-2 w-1/3 justify-center items-center'>
+                                <Text className='text-xl font-bold' numberOfLines={2}>{4.5}</Text>
+                                <Text className='text-gray-600' numberOfLines={2}>Total Rating</Text>
+                            </View>
+                            <View className='bg-primary rounded-2xl px-4 py-4 m-2 w-1/3 justify-center items-center'>
+                                <Text className='text-xl font-bold' numberOfLines={2}>{1120}</Text>
+                                <Text className='text-gray-600' numberOfLines={2}>Avg. Job</Text>
+                            </View>
                         </View>
                     </View>
                 </Animated.View>
@@ -92,73 +105,62 @@ export default function TaskDetailScreen() {
                     entering={FadeInDown.delay(200).duration(400)}
                     style={styles.section}
                 >
-                    <Text style={styles.sectionTitle}>Description</Text>
+                    <Text className='text-2xl font-bold py-2'>Description</Text>
                     <Text style={styles.description}>{task.description}</Text>
                 </Animated.View>
 
-                {/* Details Grid */}
                 <Animated.View
                     entering={FadeInDown.delay(300).duration(400)}
                     style={styles.section}
                 >
-                    <Text style={styles.sectionTitle}>Details</Text>
-                    <View style={styles.detailsGrid}>
-                        <View style={styles.detailItem}>
-                            <View style={styles.detailIcon}>
-                                <Ionicons name="calendar-outline" size={20} color={PRIMARY_COLOR} />
-                            </View>
-                            <View style={styles.detailContent}>
-                                <Text style={styles.detailLabel}>Due Date</Text>
-                                <Text style={styles.detailValue}>{task.dueDate}</Text>
-                            </View>
-                        </View>
+                    <Text className='text-xl font-bold py-2'>Available Slots</Text>
 
-                        <View style={styles.detailItem}>
-                            <View style={styles.detailIcon}>
-                                <Ionicons name="person-outline" size={20} color={PRIMARY_COLOR} />
-                            </View>
-                            <View style={styles.detailContent}>
-                                <Text style={styles.detailLabel}>Assignee</Text>
-                                <Text style={styles.detailValue}>{task.assignee}</Text>
-                            </View>
-                        </View>
+                    <View className="mt-4 gap-4">
+                        {slots.map((slot, index) => (
+                            <SlotCard
+                                key={index}
+                                date={slot.date}
+                                startTime={slot.startTime}
+                                endTime={slot.endTime}
+                                totalCost={slot.totalCost}
+                                onPress={() => setSelectedSlot(index)}
+                                selected={selectedSlot === index}
+                            />
 
-                        <View style={styles.detailItem}>
-                            <View style={styles.detailIcon}>
-                                <Ionicons name="time-outline" size={20} color={PRIMARY_COLOR} />
-                            </View>
-                            <View style={styles.detailContent}>
-                                <Text style={styles.detailLabel}>Created</Text>
-                                <Text style={styles.detailValue}>{task.createdDate}</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.detailItem}>
-                            <View style={styles.detailIcon}>
-                                <Ionicons name="folder-outline" size={20} color={PRIMARY_COLOR} />
-                            </View>
-                            <View style={styles.detailContent}>
-                                <Text style={styles.detailLabel}>Category</Text>
-                                <Text style={styles.detailValue}>{task.category}</Text>
-                            </View>
-                        </View>
+                        ))}
                     </View>
                 </Animated.View>
-
-                {/* Action Buttons */}
                 <Animated.View
-                    entering={FadeInDown.delay(400).duration(400)}
-                    style={styles.actions}
+                    entering={FadeInDown.delay(300).duration(400)}
+                    style={styles.section}
                 >
-                    <TouchableOpacity style={styles.primaryButton}>
-                        <Text style={styles.primaryButtonText}>Edit Task</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.secondaryButton}>
-                        <Ionicons name="trash-outline" size={20} color="#EF4444" />
-                        <Text style={styles.secondaryButtonText}>Delete</Text>
-                    </TouchableOpacity>
+                    <Text className='text-xl font-bold py-2'>Customer Reviews</Text>
+                    <Text className='text-lg text-center font-thin py-2'>Customer Reviews Coming Soon</Text>
+
                 </Animated.View>
+                <View style={styles.bottomSpacer} />
             </ScrollView>
+
+            {/* FAB */}
+            <View pointerEvents='box-none' className='absolute bg-transparent px-6 bottom-8'>
+                <View className='flex flex-row justify-between bg-transparent w-full gap-2'>
+                    <TouchableOpacity
+                        className='flex flex-row w-5/6 gap-2 px-8 py-4 border-1 border-secondary rounded-full bg-primary items-center justify-center drop-shadow-lg'
+                        activeOpacity={0.85}
+                        onPress={handleBooking}
+                    >
+                        <Text className='text-2xl'>Book Now</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        className='flex flex-row w-1/6 border-1 border-secondary rounded-full bg-primary items-center justify-center drop-shadow-lg'
+                        activeOpacity={0.85}
+                        onPress={() => { }}
+                    >
+                        <Ionicons name="chatbubble-ellipses-outline" size={24} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+
         </SafeAreaView>
     );
 }
@@ -284,5 +286,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         color: '#EF4444',
+    },
+    bottomSpacer: {
+        height: 100, // Increased to account for tab bar (84px height + 16px buffer)
     },
 });
