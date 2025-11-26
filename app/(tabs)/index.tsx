@@ -17,13 +17,13 @@ export default function HomeScreen() {
           style={styles.header}
         >
           <View className='flex flex-row ml-auto mr-auto justify-between w-full items-center'>
-            <Text className="text-4xl font-bold text-gray-900 pb-8">WorkBagel</Text>
+            <Text className="text-4xl font-bold text-primary pb-8">WorkBagel</Text>
             <TouchableOpacity className='pb-8' onPress={() => router.push('/profile')}>
               <Image source={{ uri: "https://res.cloudinary.com/dixnvhqxl/image/upload/v1760776218/ibmwys2avnjbfrtpozxi.png" }} className='w-12 h-12 border-2 border-primary rounded-full' />
             </TouchableOpacity>
           </View>
           <TextInput
-            className='bg-gray-200 pl-8 rounded-full h-16 font-thin text-xl mb-4'
+            className='bg-gray-200 pl-8 rounded-full h-16 font-thin text-xl mb-4 border border-accent'
             placeholder="Search technicians..."
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -119,11 +119,16 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    backgroundColor: Colors.accent,
+    backgroundColor: Colors.background.gray,
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonContainer: {
     flexDirection: 'row',

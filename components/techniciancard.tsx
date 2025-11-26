@@ -1,4 +1,4 @@
-import { Colors, PRIMARY_COLOR } from '@/constants/colors';
+import { Colors } from '@/constants/colors';
 import { Task } from '@/interfaces/type';
 import { router } from 'expo-router';
 import React from 'react';
@@ -59,14 +59,20 @@ export default function TechnicianCard({ task, onPress }: TechnicianCardProps) {
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: PRIMARY_COLOR + '50',
+        // backgroundColor: PRIMARY_COLOR + '50',
+        backgroundColor: Colors.background.surface,
         borderRadius: 16,
         padding: 16,
         marginBottom: 16,
         borderWidth: 1,
-        borderColor: Colors.border.DEFAULT,
+        borderColor: Colors.accent,
         position: 'relative',
         overflow: 'hidden',
+        shadowColor: Colors.accent,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     header: {
         flexDirection: 'row',

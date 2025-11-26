@@ -1,5 +1,5 @@
 import SlotCard from '@/components/slot-card';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
+import { Colors, PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
@@ -84,17 +84,17 @@ export default function TaskDetailScreen() {
                         <Text className='text-3xl font-semibold pt-4'>{`Aditya Kumar`}</Text>
                         <Text className='text-lg text-gray-600'>{task.category}</Text>
                         <View className='flex flex-row px-4 mt-4'>
-                            <View className='bg-primary rounded-2xl px-4 py-4 m-2 w-1/3 justify-center items-center'>
+                            <View className='bg-primary/20 px-4 py-4 m-2 w-1/3 justify-center items-center rounded-2xl'>
                                 <Text className='text-xl font-bold' numberOfLines={2}>{1120}</Text>
-                                <Text className='text-gray-600' numberOfLines={2}>Bookings</Text>
+                                <Text className='text-primary-dark' numberOfLines={2}>Bookings</Text>
                             </View>
-                            <View className='bg-primary rounded-2xl px-4 py-4 m-2 w-1/3 justify-center items-center'>
+                            <View className='bg-primary/20 px-4 py-4 m-2 w-1/3 justify-center items-center rounded-2xl'>
                                 <Text className='text-xl font-bold' numberOfLines={2}>{4.5}</Text>
-                                <Text className='text-gray-600' numberOfLines={2}>Total Rating</Text>
+                                <Text className='text-primary-dark' numberOfLines={2}>Total Rating</Text>
                             </View>
-                            <View className='bg-primary rounded-2xl px-4 py-4 m-2 w-1/3 justify-center items-center'>
-                                <Text className='text-xl font-bold' numberOfLines={2}>{1120}</Text>
-                                <Text className='text-gray-600' numberOfLines={2}>Avg. Job</Text>
+                            <View className='bg-primary/20 px-4 py-4 m-2 w-1/3 justify-center items-center rounded-2xl'>
+                                <Text className='text-xl font-bold' numberOfLines={2}>{2} Hrs</Text>
+                                <Text className='text-primary-dark' numberOfLines={2}>Avg. Job</Text>
                             </View>
                         </View>
                     </View>
@@ -135,7 +135,7 @@ export default function TaskDetailScreen() {
                     style={styles.section}
                 >
                     <Text className='text-xl font-bold py-2'>Customer Reviews</Text>
-                    <Text className='text-lg text-center font-thin py-2'>Customer Reviews Coming Soon</Text>
+                    <Text className='text-lg text-center font-thin py-2'>Coming Soon ...</Text>
 
                 </Animated.View>
                 <View style={styles.bottomSpacer} />
@@ -145,18 +145,21 @@ export default function TaskDetailScreen() {
             <View pointerEvents='box-none' className='absolute bg-transparent px-6 bottom-8'>
                 <View className='flex flex-row justify-between bg-transparent w-full gap-2'>
                     <TouchableOpacity
-                        className='flex flex-row w-5/6 gap-2 px-8 py-4 border-1 border-secondary rounded-full bg-primary items-center justify-center drop-shadow-lg'
+                        className={`flex flex-row w-5/6 gap-2 px-8 py-4 rounded-full items-center justify-center shadow-lg
+  ${selectedSlot !== null ? 'bg-tertiary-light border-tertiary-dark' : 'bg-neutral-200 border-secondary'}`}
                         activeOpacity={0.85}
                         onPress={handleBooking}
                     >
-                        <Text className='text-2xl'>Book Now</Text>
+                        <Text className={`${selectedSlot !== null ? 'text-white' : 'text-gray-900'} text-2xl`}>
+                            {selectedSlot !== null ? 'Book Now' : 'Select Slot'}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        className='flex flex-row w-1/6 border-1 border-secondary rounded-full bg-primary items-center justify-center drop-shadow-lg'
+                        className='flex flex-row w-1/6 rounded-full bg-tertiary-light items-center justify-center shadow-lg border border-tertiary-light/90'
                         activeOpacity={0.85}
                         onPress={() => { }}
                     >
-                        <Ionicons name="chatbubble-ellipses-outline" size={24} />
+                        <Ionicons name="chatbubble-ellipses-outline" color={Colors.background.DEFAULT} size={24} />
                     </TouchableOpacity>
                 </View>
             </View>

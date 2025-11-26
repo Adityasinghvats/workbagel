@@ -20,6 +20,8 @@ export default function RootLayout() {
         <Stack.Screen name="task/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="tech/[id]" options={{ headerShown: false }} />
+        <Stack.Screen name="slot/add/addSlot" options={{ headerShown: false }} />
+        <Stack.Screen name="slot/slots" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

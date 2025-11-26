@@ -1,5 +1,6 @@
 import { Colors, PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import {
   Alert,
@@ -167,6 +168,20 @@ export default function ProfileScreen() {
               </View>
             </View>
 
+            {/* Only for provider */}
+            <View style={styles.menuSection}>
+              <Text style={styles.sectionTitle}>Manage Slots</Text>
+
+              <View style={styles.menuContainer}>
+                <ProfileMenuItem
+                  icon="calendar-outline"
+                  title="Manage Slots"
+                  subtitle="Manage your available slots"
+                  onPress={() => { router.push('/slot/slots') }}
+                />
+              </View>
+            </View>
+
             {/* Logout Button */}
             <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
               <Ionicons name="log-out-outline" size={24} color="#FF3B30" />
@@ -191,12 +206,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   header: {
-    backgroundColor: Colors.accent,
+    backgroundColor: Colors.background.gray,
     paddingTop: 30,
     paddingBottom: 30,
     alignItems: 'center',
     borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30
+    borderBottomRightRadius: 30,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   profileImageContainer: {
     position: 'relative',
@@ -245,7 +265,9 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 20,
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    borderWidth: 1,
+    borderColor: Colors.accent
   },
   statItem: {
     alignItems: 'center',
@@ -264,7 +286,7 @@ const styles = StyleSheet.create({
   },
   statDivider: {
     width: 1,
-    backgroundColor: '#E5E5EA',
+    backgroundColor: Colors.accent,
     marginVertical: 10,
   },
   menuSection: {
@@ -283,6 +305,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: Colors.accent
   },
   menuItem: {
     flexDirection: 'row',
@@ -311,8 +335,8 @@ const styles = StyleSheet.create({
   },
   menuDivider: {
     height: 1,
-    backgroundColor: '#E5E5EA',
     marginLeft: 56,
+    backgroundColor: Colors.accent
   },
   logoutButton: {
     flexDirection: 'row',

@@ -73,25 +73,6 @@ export default function CategoryDetailsScreen() {
         createdDate: '2024-03-01',
         category: 'Documentation',
     };
-
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case 'Open': return '#3B82F6';
-            case 'In Progress': return PRIMARY_COLOR;
-            case 'Closed': return '#10B981';
-            default: return '#6B7280';
-        }
-    };
-
-    const getPriorityColor = (priority: string) => {
-        switch (priority) {
-            case 'High': return '#EF4444';
-            case 'Medium': return '#F59E0B';
-            case 'Low': return '#3B82F6';
-            default: return '#6B7280';
-        }
-    };
-
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
             {/* Header */}
@@ -126,7 +107,7 @@ export default function CategoryDetailsScreen() {
                         <>
                             {/* Title Section */}
                             <Animated.View
-                                entering={FadeInDown.delay(100).duration(400)}
+                                entering={FadeInDown.delay(100).duration(300)}
                                 className='pb-6'
                             >
                                 <View className='bg-gray-200 rounded-3xl w-28 h-28 items-center justify-center mb-4'>
@@ -135,16 +116,16 @@ export default function CategoryDetailsScreen() {
                                 <Text className='text-3xl font-bold mb-4'>{id}</Text>
                                 <View className='flex-row items-center gap-2'>
                                     <Ionicons name="location-outline" size={20} color={PRIMARY_COLOR} />
-                                    {/* <Star color={PRIMARY_COLOR} size={20} />
-                        <Text className='text-lg'>{4.9}</Text>
-                        <Text className='text-lg'>{`(10,000+ bookings)`}</Text> */}
+                                    {/* <Star color={PRIMARY_COLOR} size={20} /> */}
+                                    <Text className='text-lg'>{4.9}</Text>
+                                    <Text className='text-lg'>{`(10,000+ bookings)`}</Text>
                                     <Text className='text-md text-gray-600'>{`New York, NY, USA`}</Text>
                                 </View>
                             </Animated.View>
                             <View className='h-[0.5px] bg-gray-300 mb-6'></View>
                             {/* Description */}
                             <Animated.View
-                                entering={FadeInDown.delay(200).duration(400)}
+                                entering={FadeInDown.delay(200).duration(300)}
                                 className='pb-6'
                             >
                                 <Text className='text-2xl font-bold mb-2'>Technicians</Text>
@@ -153,14 +134,6 @@ export default function CategoryDetailsScreen() {
                         </>
                     }
                 />
-            </Animated.View>
-
-            {/* Action Buttons */}
-            <Animated.View
-                entering={FadeInDown.delay(400).duration(400)}
-                style={styles.actions}
-            >
-
             </Animated.View>
         </SafeAreaView>
     );

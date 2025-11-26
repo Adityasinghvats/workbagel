@@ -1,4 +1,4 @@
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
+import { Colors, PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
@@ -92,7 +92,7 @@ export default function TaskDetailScreen() {
                     entering={FadeInDown.delay(200).duration(400)}
                     style={styles.section}
                 >
-                    <Text style={styles.sectionTitle}>Description</Text>
+                    <Text className="text-secondary-dark text-2xl mb-4">Description</Text>
                     <Text style={styles.description}>{task.description}</Text>
                 </Animated.View>
 
@@ -101,7 +101,7 @@ export default function TaskDetailScreen() {
                     entering={FadeInDown.delay(300).duration(400)}
                     style={styles.section}
                 >
-                    <Text style={styles.sectionTitle}>Details</Text>
+                    <Text className="text-secondary-dark text-2xl mb-4">Details</Text>
                     <View style={styles.detailsGrid}>
                         <View style={styles.detailItem}>
                             <View style={styles.detailIcon}>
@@ -142,6 +142,16 @@ export default function TaskDetailScreen() {
                                 <Text style={styles.detailValue}>{task.category}</Text>
                             </View>
                         </View>
+
+                        <View style={styles.detailItem}>
+                            <View style={styles.detailIcon}>
+                                <Ionicons name="pricetag-outline" size={20} color={PRIMARY_COLOR} />
+                            </View>
+                            <View style={styles.detailContent}>
+                                <Text style={styles.detailLabel}>Final Cost</Text>
+                                <Text style={styles.detailValue}>{`$ ${1000}`}</Text>
+                            </View>
+                        </View>
                     </View>
                 </Animated.View>
 
@@ -150,12 +160,20 @@ export default function TaskDetailScreen() {
                     entering={FadeInDown.delay(400).duration(400)}
                     style={styles.actions}
                 >
-                    <TouchableOpacity style={styles.primaryButton}>
-                        <Text style={styles.primaryButtonText}>Edit Task</Text>
+                    <TouchableOpacity className='bg-primary-light/20 flex flex-row justify-center items-center py-4 gap-2 border border-primary-light/70 rounded-full'>
+                        <Ionicons name="create-outline" size={20} color={Colors.primary.dark} />
+                        <Text className='text-primary-dark text-lg font-bold'>Edit Task</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.secondaryButton}>
-                        <Ionicons name="trash-outline" size={20} color="#EF4444" />
-                        <Text style={styles.secondaryButtonText}>Delete</Text>
+                    <TouchableOpacity className='bg-red-500/20 flex flex-row justify-center items-center py-4 gap-2 border border-red-500/70 rounded-full'>
+                        <Ionicons name="trash-outline" size={20} color="#FF0000" />
+                        <Text className='text-red-500 text-lg font-bold'>Delete</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+
+                        className='bg-tertiary-light/20 flex flex-row justify-center items-center py-4 gap-2 border border-tertiary-light/70 rounded-full'
+                    >
+                        <Ionicons name="checkmark-done-outline" size={20} color={Colors.tertiary.dark} />
+                        <Text className='text-tertiary-dark text-lg font-bold'>Complete</Text>
                     </TouchableOpacity>
                 </Animated.View>
             </ScrollView>
@@ -214,12 +232,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: '600',
     },
-    sectionTitle: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: SECONDARY_COLOR,
-        marginBottom: 12,
-    },
     description: {
         fontSize: 15,
         lineHeight: 22,
@@ -257,32 +269,5 @@ const styles = StyleSheet.create({
     actions: {
         gap: 12,
         marginTop: 8,
-    },
-    primaryButton: {
-        backgroundColor: PRIMARY_COLOR,
-        paddingVertical: 16,
-        borderRadius: 12,
-        alignItems: 'center',
-    },
-    primaryButtonText: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: SECONDARY_COLOR,
-    },
-    secondaryButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 16,
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: '#FEE2E2',
-        backgroundColor: '#FEF2F2',
-        gap: 8,
-    },
-    secondaryButtonText: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#EF4444',
     },
 });

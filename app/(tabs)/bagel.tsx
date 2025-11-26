@@ -99,9 +99,9 @@ export default function HomeScreen() {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
-                    <Text className="text-4xl font-bold text-gray-900 pb-8">Your Bagels</Text>
+                    <Text className="text-4xl font-bold text-primary pb-8">Your Bagels</Text>
                     <TextInput
-                        className='bg-gray-200 pl-8 rounded-full h-16 font-thin text-xl mb-4'
+                        className='bg-gray-200 pl-8 rounded-full h-16 font-thin text-xl mb-4 border border-accent'
                         placeholder="Search bagels..."
                         value={searchQuery}
                         onChangeText={setSearchQuery}
@@ -157,11 +157,16 @@ const styles = StyleSheet.create({
     },
     header: {
         padding: 20,
-        backgroundColor: Colors.accent,
+        backgroundColor: Colors.background.gray,
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
         borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30
+        borderBottomRightRadius: 30,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -172,6 +177,8 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 20,
         backgroundColor: '#eee',
+        borderWidth: 1,
+        borderColor: Colors.tertiary.light,
         flex: 1,
         alignItems: 'center',
     },

@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderRadius: 16,
         padding: 16,
+        borderWidth: 1,
+        borderColor: Colors.accent,
         alignItems: 'center',
         justifyContent: 'center',
         gap: 12
