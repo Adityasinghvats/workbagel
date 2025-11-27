@@ -164,12 +164,15 @@ export default function TaskDetailScreen() {
                         <Ionicons name="create-outline" size={20} color={Colors.primary.dark} />
                         <Text className='text-primary-dark text-lg font-bold'>Edit Task</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity className='bg-red-500/20 flex flex-row justify-center items-center py-4 gap-2 border border-red-500/70 rounded-full'>
+                    <TouchableOpacity
+                        onPress={() => { router.push('/register/signup') }}
+                        className='bg-red-500/20 flex flex-row justify-center items-center py-4 gap-2 border border-red-500/70 rounded-full'
+                    >
                         <Ionicons name="trash-outline" size={20} color="#FF0000" />
                         <Text className='text-red-500 text-lg font-bold'>Delete</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-
+                        onPress={() => { router.push('/login/login') }}
                         className='bg-tertiary-light/20 flex flex-row justify-center items-center py-4 gap-2 border border-tertiary-light/70 rounded-full'
                     >
                         <Ionicons name="checkmark-done-outline" size={20} color={Colors.tertiary.dark} />

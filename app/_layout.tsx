@@ -22,6 +22,8 @@ export default function RootLayout() {
         <Stack.Screen name="tech/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="slot/add/addSlot" options={{ headerShown: false }} />
         <Stack.Screen name="slot/slots" options={{ headerShown: false }} />
+        <Stack.Screen name="login/login" options={{ headerShown: false }} />
+        <Stack.Screen name="register/signup" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>

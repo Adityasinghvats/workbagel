@@ -31,7 +31,7 @@ export default function HomeScreen() {
           />
         </View>
         <ScrollView
-          className='flex-1 mt-5 ml-6'
+          className='flex-1 pt-6 ml-6'
           showsVerticalScrollIndicator={false}
         >
           <View className='bg-tertiary h-48 max-w-full mr-6 rounded-3xl overflow-hidden'>
@@ -129,44 +129,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 8,
-  },
-  button: {
-    padding: 14,
-    borderRadius: 20,
-    backgroundColor: '#eee',
-    flex: 1,
-    alignItems: 'center',
-  },
-  buttonSelected: {
-    backgroundColor: Colors.primary.DEFAULT,
-  },
-  buttonText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: Colors.text.primary,
-  },
-  buttonTextSelected: {
-    color: Colors.secondary.DEFAULT,
-    fontWeight: '700',
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 60,
-  },
-  emptyText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: Colors.text.secondary,
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    color: Colors.text.light,
-  },
+  }
 });

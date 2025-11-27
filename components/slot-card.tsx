@@ -21,6 +21,8 @@ function formatDate(d: string | Date) {
     return dt.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
+const user = 'PROVIDER';
+
 export default function SlotCard({
     date,
     startTime,
@@ -78,9 +80,15 @@ export default function SlotCard({
 
             {/* Total Cost */}
             <Text className="mb-1 text-base font-semibold text-gray-600">Total Cost</Text>
-            <Text className="text-lg font-semibold text-gray-900">
+            <Text className="text-lg mb-4 font-semibold text-gray-900">
                 {typeof totalCost === 'number' ? `${currency}${totalCost}` : totalCost} (incl. tax)
             </Text>
+            {user === 'PROVIDER' && (
+                <TouchableOpacity className='bg-red-500/20 flex flex-row justify-center items-center py-4 gap-2 border border-red-500/70 rounded-full'>
+                    <Ionicons name="trash-outline" size={20} color="#FF0000" />
+                    <Text className='text-red-500 text-lg font-bold'>Delete</Text>
+                </TouchableOpacity>
+            )}
         </TouchableOpacity>
     );
 }

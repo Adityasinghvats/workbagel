@@ -6,11 +6,13 @@ import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import BookingModal from '@/components/booking-modal';
 
 export default function TaskDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
     const [selectedSlot, setSelectedSlot] = React.useState<number | null>(null);
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     // Mock task data - replace with actual data fetching
     const task = {
@@ -32,10 +34,10 @@ export default function TaskDetailScreen() {
             totalCost: 89,
         },
         {
-            date: new Date(),
+            date: '2025-11-17',
             startTime: '10:00 am',
             endTime: '12:00 pm',
-            totalCost: '$120 ',
+            totalCost: 120,
         },
         {
             date: '2025-11-18',
@@ -52,7 +54,14 @@ export default function TaskDetailScreen() {
     ];
     const handleBooking = () => {
         console.log('Booking confirmed for slot:', selectedSlot);
+        if (selectedSlot !== null) {
+            setModalVisible(true);
+        }
     }
+    const handleConfirmBooking = (additionalInfo: string) => {
+        console.log('Booking confirmed with additional info:', additionalInfo);
+        setModalVisible(false);
+    };
 
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
@@ -163,7 +172,15 @@ export default function TaskDetailScreen() {
                     </TouchableOpacity>
                 </View>
             </View>
-
+            <BookingModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onConfirm={handleConfirmBooking}
+                slotDate={selectedSlot !== null ? slots[selectedSlot].date : ''}
+                startTime={selectedSlot !== null ? slots[selectedSlot].startTime : ''}
+                endTime={selectedSlot !== null ? slots[selectedSlot].endTime : ''}
+                price={selectedSlot !== null ? slots[selectedSlot].totalCost : 0}
+            />
         </SafeAreaView>
     );
 }
