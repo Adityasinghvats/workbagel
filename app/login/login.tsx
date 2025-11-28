@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 type FormValues = {
@@ -49,100 +49,113 @@ export default function LoginScreen() {
                         <Ionicons name="arrow-back" size={24} color={SECONDARY_COLOR} />
                     </TouchableOpacity>
                 </View>
-                <View className="px-6 flex-1 justify-center">
-                    <Text className="text-4xl font-bold mb-8">Login</Text>
-
-                    {/* Email */}
-                    <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Email</Text>
-                    <Controller
-                        control={control}
-                        name="email"
-                        rules={{
-                            required: 'Email required',
-                            pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email' },
-                        }}
-                        render={({ field: { value, onChange, onBlur } }) => (
-                            <TextInput
-                                className="border border-gray-300 rounded-xl px-4 py-3 text-base"
-                                placeholder="name@example.com"
-                                value={value}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                keyboardType="email-address"
-                                autoCapitalize="none"
-                            />
-                        )}
-                    />
-                    {errors.email && <Text className="text-red-500 text-xs mt-1">{errors.email.message}</Text>}
-
-                    {/* Password */}
-                    <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Password</Text>
-                    <Controller
-                        control={control}
-                        name="password"
-                        rules={{
-                            required: 'Password required',
-                            minLength: { value: 6, message: 'Min 6 chars' },
-                        }}
-                        render={({ field: { value, onChange, onBlur } }) => (
-                            <TextInput
-                                className="border border-gray-300 rounded-xl px-4 py-3 text-base"
-                                placeholder="••••••••"
-                                value={value}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                secureTextEntry
-                                autoCapitalize="none"
-                            />
-                        )}
-                    />
-                    {errors.password && <Text className="text-red-500 text-xs mt-1">{errors.password.message}</Text>}
-
-                    {/* Confirm Password */}
-                    <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Confirm Password</Text>
-                    <Controller
-                        control={control}
-                        name="confirmPassword"
-                        rules={{
-                            required: 'Confirm password',
-                            validate: v => v === password || 'Passwords must match',
-                        }}
-                        render={({ field: { value, onChange, onBlur } }) => (
-                            <TextInput
-                                className="border border-gray-300 rounded-xl px-4 py-3 text-base"
-                                placeholder="Repeat password"
-                                value={value}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                secureTextEntry
-                                autoCapitalize="none"
-                            />
-                        )}
-                    />
-                    {errors.confirmPassword && <Text className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</Text>}
-
-                    {/* Submit */}
-                    <TouchableOpacity
-                        className={`mt-8 rounded-full px-6 py-4 items-center justify-center ${isSubmitting ? 'bg-gray-300' : 'bg-tertiary-light'}`}
-                        disabled={isSubmitting}
-                        onPress={handleSubmit(onSubmit)}
-                        activeOpacity={0.85}
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    className="flex-1"
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+                >
+                    <ScrollView
+                        className="flex-1 px-6"
+                        showsVerticalScrollIndicator={false}
+                        keyboardShouldPersistTaps="handled"
+                        contentContainerStyle={{ paddingBottom: 40 }}
                     >
-                        {isSubmitting ? (
-                            <ActivityIndicator color="#000" />
-                        ) : (
-                            <Text className="text-gray-50 font-bold text-base">Login</Text>
-                        )}
-                    </TouchableOpacity>
+                        <View className="my-12">
+                            <Text className="text-4xl font-bold mb-8">Login</Text>
 
-                    {/* Footer */}
-                    <View className="mt-6 flex-row justify-center">
-                        <Text className="text-gray-600 text-md">Don&#39;t have an account? </Text>
-                        <TouchableOpacity onPress={() => { router.push('/register/signup') }}>
-                            <Text className="text-primary font-semibold text-md">Sign Up</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
+                            {/* Email */}
+                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Email</Text>
+                            <Controller
+                                control={control}
+                                name="email"
+                                rules={{
+                                    required: 'Email required',
+                                    pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email' },
+                                }}
+                                render={({ field: { value, onChange, onBlur } }) => (
+                                    <TextInput
+                                        className="border border-gray-300 rounded-xl px-4 py-3 text-base"
+                                        placeholder="name@example.com"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        keyboardType="email-address"
+                                        autoCapitalize="none"
+                                    />
+                                )}
+                            />
+                            {errors.email && <Text className="text-red-500 text-xs mt-1">{errors.email.message}</Text>}
+
+                            {/* Password */}
+                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Password</Text>
+                            <Controller
+                                control={control}
+                                name="password"
+                                rules={{
+                                    required: 'Password required',
+                                    minLength: { value: 6, message: 'Min 6 chars' },
+                                }}
+                                render={({ field: { value, onChange, onBlur } }) => (
+                                    <TextInput
+                                        className="border border-gray-300 rounded-xl px-4 py-3 text-base"
+                                        placeholder="••••••••"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        secureTextEntry
+                                        autoCapitalize="none"
+                                    />
+                                )}
+                            />
+                            {errors.password && <Text className="text-red-500 text-xs mt-1">{errors.password.message}</Text>}
+
+                            {/* Confirm Password */}
+                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Confirm Password</Text>
+                            <Controller
+                                control={control}
+                                name="confirmPassword"
+                                rules={{
+                                    required: 'Confirm password',
+                                    validate: v => v === password || 'Passwords must match',
+                                }}
+                                render={({ field: { value, onChange, onBlur } }) => (
+                                    <TextInput
+                                        className="border border-gray-300 rounded-xl px-4 py-3 text-base"
+                                        placeholder="Repeat password"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        secureTextEntry
+                                        autoCapitalize="none"
+                                    />
+                                )}
+                            />
+                            {errors.confirmPassword && <Text className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</Text>}
+
+                            {/* Submit */}
+                            <TouchableOpacity
+                                className={`mt-8 rounded-full px-6 py-4 items-center justify-center ${isSubmitting ? 'bg-gray-300' : 'bg-tertiary-light'}`}
+                                disabled={isSubmitting}
+                                onPress={handleSubmit(onSubmit)}
+                                activeOpacity={0.85}
+                            >
+                                {isSubmitting ? (
+                                    <ActivityIndicator color="#000" />
+                                ) : (
+                                    <Text className="text-gray-50 font-bold text-base">Login</Text>
+                                )}
+                            </TouchableOpacity>
+
+                            {/* Footer */}
+                            <View className="mt-6 flex-row justify-center">
+                                <Text className="text-gray-600 text-md">Don&#39;t have an account? </Text>
+                                <TouchableOpacity onPress={() => { router.push('/register/signup') }}>
+                                    <Text className="text-primary font-semibold text-md">Sign Up</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
             </SafeAreaView>
         </SafeAreaProvider >
     );

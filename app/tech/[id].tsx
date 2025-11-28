@@ -1,3 +1,4 @@
+import BookingModal from '@/components/booking-modal';
 import SlotCard from '@/components/slot-card';
 import { Colors, PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
 import { Ionicons } from '@expo/vector-icons';
@@ -6,7 +7,6 @@ import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BookingModal from '@/components/booking-modal';
 
 export default function TaskDetailScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
