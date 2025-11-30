@@ -1,6 +1,10 @@
 import { Colors, PRIMARY_COLOR, SECONDARY_COLOR } from '@/constants/colors';
+import { useAuth } from '@/hooks/use-auth';
+import { User } from '@/interfaces/users/interface';
+import { userService } from '@/services/userService';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
   Alert,
@@ -21,6 +25,21 @@ export default function ProfileScreen() {
     bagels: 24,
     profileImage: "https://res.cloudinary.com/dixnvhqxl/image/upload/v1760776218/ibmwys2avnjbfrtpozxi.png",
   });
+  const { signOut, user: authUser, isLoading } = useAuth();
+  const router = useRouter();
+  // useEffect(() => {
+  //   if (!user) {
+  //     router.replace('/login/login');
+  //   }
+  // }, [user])
+  const currentUserData = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => userService.getCurrentUser()
+  });
+
+  const user: User = currentUserData.data?.data?.user;
+  console.log('Current User Data:', user);
+
 
   const handleLogout = () => {
     Alert.alert(
@@ -33,7 +52,7 @@ export default function ProfileScreen() {
         },
         {
           text: 'Logout',
-          onPress: () => console.log('User logged out'),
+          onPress: () => { signOut(); router.replace('/'); },
           style: 'destructive',
         },
       ],
@@ -88,24 +107,39 @@ export default function ProfileScreen() {
                 </TouchableOpacity>
               </View>
 
-              <Text style={styles.profileName}>{profileData.name}</Text>
+              <Text style={styles.profileName}>{authUser?.name || "User Name"}</Text>
               <View style={styles.addressContainer}>
-                <Ionicons name="location-outline" size={16} color="#666" />
-                <Text style={styles.profileAddress}>{profileData.address}</Text>
+                <Ionicons name="mail-outline" size={16} color="#666" />
+                <Text style={styles.profileAddress}>{authUser?.email || "No email provided"}</Text>
               </View>
+              <View style={styles.addressContainer}>
+                <Text style={styles.profileAddress} numberOfLines={4}>{user?.description || "No description provided"} </Text>
+              </View>
+
+              <View style={styles.addressContainer}>
+                <Ionicons name="call-outline" size={16} color="#666" />
+                <Text style={styles.profileAddress}>{user?.phoneNumber || "No phone number provided"}</Text>
+              </View>
+              <View style={styles.addressContainer}>
+                <Ionicons name="mail-outline" size={16} color="#666" />
+                <Text style={styles.profileAddress}>{authUser?.emailVerified ? 'Verified' : 'Not Verified'}</Text>
+              </View>
+
             </View>
+
+
 
             {/* Bagels Stats Card */}
             <View style={styles.statsCard}>
               <View style={styles.statItem}>
                 <Ionicons name="fast-food" size={32} color="#007AFF" />
-                <Text style={styles.statNumber}>{profileData.bagels}</Text>
+                <Text style={styles.statNumber}>{user?._count?.slots}</Text>
                 <Text style={styles.statLabel}>Total Bagels</Text>
               </View>
               <View style={styles.statDivider} />
               <View style={styles.statItem}>
                 <Ionicons name="calendar-outline" size={32} color="#34C759" />
-                <Text style={styles.statNumber}>12</Text>
+                <Text style={styles.statNumber}>{user?.role === 'CLIENT' ? user?._count?.bookingsMade : user?._count?.bookingsReceived}</Text>
                 <Text style={styles.statLabel}>This Month</Text>
               </View>
             </View>
@@ -127,7 +161,7 @@ export default function ProfileScreen() {
                 <ProfileMenuItem
                   icon="location-outline"
                   title="Address"
-                  subtitle={profileData.address}
+                  subtitle={user?.address || "Manage your addresses"}
                   onPress={() => Alert.alert('Address', 'Address management would open')}
                 />
               </View>
@@ -192,7 +226,7 @@ export default function ProfileScreen() {
           </ScrollView>
         </SafeAreaView>
       </SafeAreaProvider>
-    </Animated.View>
+    </Animated.View >
   );
 }
 
@@ -251,6 +285,9 @@ const styles = StyleSheet.create({
   addressContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    margin: 4,
+    marginHorizontal: 24,
     gap: 6,
   },
   profileAddress: {

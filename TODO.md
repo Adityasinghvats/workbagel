@@ -1,0 +1,6 @@
+- API integration
+- Protect routes
+- Splash screen/icon
+- payment gateway
+- chat features
+- firebase notifications

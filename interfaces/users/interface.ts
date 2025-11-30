@@ -2,12 +2,16 @@ export interface User {
     id: string;
     name: string;
     email?: string;
+    address?: string;
+    phoneNumber?: string;
     hourlyRate?: string;
     role?: 'PROVIDER' | 'CLIENT';
     image?: string;
     category?: Category;
     description?: string;
-    _count?: { slot: number }
+    emailVerified?: boolean;
+    rating?: number;
+    _count?: { slots: number, bookingsMade: number, bookingsReceived: number };
 }
 
 export interface SignUpData {
@@ -18,6 +22,9 @@ export interface SignUpData {
     hourlyRate?: string;
     category?: Category;
     description?: string;
+    address: string;
+    phoneNumber: string;
+    profileImage?: File;
 }
 
 export interface SignInData {
@@ -34,5 +41,12 @@ export enum Category {
     CONSULTING = 'CONSULTING',
     HEALTHCARE = 'HEALTHCARE',
     LEGAL = 'LEGAL',
+    AIRCONDITIONING = 'AIRCONDITIONING',
+    BEAUTY = 'BEAUTY',
+    HOMEIMPROVEMENT = 'HOMEIMPROVEMENT',
+    PESTCONTROL = 'PESTCONTROL',
+    FITNESS = 'FITNESS',
+    HOMEAPPLIANCEREPAIR = 'HOMEAPPLIANCEREPAIR',
+    EVENTPLANNING = 'EVENTPLANNING',
     OTHER = 'OTHER',
 }

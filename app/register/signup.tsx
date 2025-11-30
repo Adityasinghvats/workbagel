@@ -1,11 +1,13 @@
 import { SECONDARY_COLOR } from '@/constants/colors';
+import { useAuth } from '@/hooks/use-auth';
 import { Category } from '@/interfaces/users/interface';
 import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
+import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, Alert, Image, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 type FormValues = {
@@ -17,6 +19,9 @@ type FormValues = {
     category?: string;
     description?: string;
     hourlyRate?: string;
+    address?: string;
+    phoneNumber?: string;
+    profileImage?: any;
 };
 
 export default function SignupScreen() {
@@ -29,30 +34,93 @@ export default function SignupScreen() {
             role: 'CLIENT',
             category: Category.OTHER,
             description: '',
-            hourlyRate: '0.00',
+            hourlyRate: '',
+            address: '',
+            phoneNumber: '',
+            profileImage: null,
         },
     });
     const router = useRouter();
     const [error, setError] = React.useState<string | null>(null);
     const [isLoading, setIsLoading] = React.useState(false);
-    // const { signUp } = useAuth();
+    const [file, setFile] = React.useState<any>(null);
+    const { signUp } = useAuth();
 
     const password = watch('password');
     const role = watch('role');
 
+    // Replace handleFileUpload with:
+    const handleFileUpload = async () => {
+        try {
+            // Request permissions
+            const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+            if (permissionResult.granted === false) {
+                Alert.alert("Permission Required", "You need to grant permission to access photos.");
+                return;
+            }
+
+            // Pick image
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ['images'],
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 0.8,
+            });
+
+            if (!result.canceled) {
+                setFile(result.assets[0]);
+            }
+        } catch (err) {
+            console.error('ImagePicker Error: ', err);
+            Alert.alert('Error', 'Failed to pick image');
+        }
+    };
+
+    // In your FormData:
     const onSubmit = async (data: FormValues) => {
         if (data.password !== data.confirmPassword) {
             Alert.alert('Error', 'Passwords do not match');
             return;
         }
+
+        const formData = new FormData();
+        formData.append('fullName', data.fullName);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('role', data.role);
+        formData.append('address', data.address || '');
+        formData.append('phoneNumber', data.phoneNumber || '');
+
+        if (role === 'PROVIDER') {
+            formData.append('category', data.category || '');
+            formData.append('description', data.description || '');
+            formData.append('hourlyRate', data.hourlyRate || '');
+        }
+
+        // Append image file
+        if (file) {
+            const imageFile = {
+                uri: file.uri,
+                type: file.mimeType || 'image/jpeg',
+                name: file.fileName || `profile_${Date.now()}.jpg`,
+            } as any;
+            formData.append('profileImage', imageFile);
+            console.log('Appended Image File:', imageFile);
+        }
+
         try {
-            // Placeholder: replace with API call
-            await new Promise(res => setTimeout(res, 900));
-            Alert.alert('Success', 'Account created');
+            setIsLoading(true);
+            await signUp(formData);
+            router.push('/');
         } catch (e) {
-            Alert.alert('Error', 'Signup failed');
+            setError((e as Error).message);
+        } finally {
+            setIsLoading(false);
         }
     };
+
+
 
     return (
         <SafeAreaProvider>
@@ -79,6 +147,8 @@ export default function SignupScreen() {
                         <View className="my-12">
                             <Text className="text-4xl font-bold mb-8">Create Account</Text>
 
+                            {error && <Text className="text-red-500 text-xs mb-2">{error}</Text>}
+
                             {/* Full Name */}
                             <Text className="text-md font-semibold text-gray-600 mb-2">Full Name</Text>
                             <Controller
@@ -92,7 +162,6 @@ export default function SignupScreen() {
                                         value={value}
                                         onBlur={onBlur}
                                         onChangeText={onChange}
-                                        autoCapitalize="words"
                                     />
                                 )}
                             />
@@ -121,6 +190,42 @@ export default function SignupScreen() {
                             />
                             {errors.email && <Text className="text-red-500 text-xs mt-1">{errors.email.message}</Text>}
 
+                            {/* Address */}
+                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Address</Text>
+                            <Controller
+                                control={control}
+                                name="address"
+                                rules={{ required: 'Address required', minLength: { value: 2, message: 'Too short' } }}
+                                render={({ field: { value, onChange, onBlur } }) => (
+                                    <TextInput
+                                        className="border border-gray-300 rounded-xl px-4 py-3 text-base"
+                                        placeholder="123 Main St"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                    />
+                                )}
+                            />
+                            {errors.address && <Text className="text-red-500 text-xs mt-1">{errors.address.message}</Text>}
+
+                            {/* Full Name */}
+                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Phone Number</Text>
+                            <Controller
+                                control={control}
+                                name="phoneNumber"
+                                rules={{ required: 'Phone number required', minLength: { value: 2, message: 'Too short' } }}
+                                render={({ field: { value, onChange, onBlur } }) => (
+                                    <TextInput
+                                        className="border border-gray-300 rounded-xl px-4 py-3 text-base"
+                                        placeholder="123-456-7890"
+                                        value={value}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        keyboardType="phone-pad"
+                                    />
+                                )}
+                            />
+                            {errors.phoneNumber && <Text className="text-red-500 text-xs mt-1">{errors.phoneNumber.message}</Text>}
                             {/* Password */}
                             <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Password</Text>
                             <Controller
@@ -189,6 +294,23 @@ export default function SignupScreen() {
                             />
                             {errors.role && <Text className="text-red-500 text-xs mt-1">{errors.role.message}</Text>}
 
+                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Choose Profile Image</Text>
+                            <TouchableOpacity
+                                onPress={handleFileUpload}
+                                className="border border-gray-300 rounded-xl px-4 py-3"
+                            >
+                                <Ionicons name="cloud-upload-outline" size={24} color="gray" className="mb-2 self-center" />
+                                <Text className="text-center text-gray-600">
+                                    {file ? `Selected: ${file.fileName || 'Image'}` : 'Upload Profile Image'}
+                                </Text>
+                            </TouchableOpacity>
+                            {file && (
+                                <Image
+                                    source={{ uri: file.uri }}
+                                    className="w-full h-52 rounded-lg self-center mt-2"
+                                />
+                            )}
+
                             {role === 'PROVIDER' && (
                                 <>
                                     <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Choose Category</Text>
@@ -226,12 +348,12 @@ export default function SignupScreen() {
                                         }}
                                         render={({ field: { value, onChange, onBlur } }) => (
                                             <TextInput
-                                                className="border border-gray-300 rounded-xl px-4 py-3 text-base"
-                                                placeholder="Description"
+                                                className="border border-gray-300 rounded-xl px-4 py-12 text-base"
+                                                placeholder="I am a professional..."
                                                 value={value}
                                                 onBlur={onBlur}
                                                 onChangeText={onChange}
-                                                secureTextEntry
+
                                                 autoCapitalize="none"
                                             />
                                         )}
@@ -239,7 +361,7 @@ export default function SignupScreen() {
                                     {errors.description && <Text className="text-red-500 text-xs mt-1">{errors.description.message}</Text>}
 
                                     {/* Hourly Rate */}
-                                    <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Hourly Rate</Text>
+                                    <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Hourly Rate ($)</Text>
                                     <Controller
                                         control={control}
                                         name="hourlyRate"
@@ -249,11 +371,11 @@ export default function SignupScreen() {
                                         render={({ field: { value, onChange, onBlur } }) => (
                                             <TextInput
                                                 className="border border-gray-300 rounded-xl px-4 py-3 text-base"
-                                                placeholder="Hourly rate"
+                                                placeholder="99.99"
                                                 value={value}
                                                 onBlur={onBlur}
                                                 onChangeText={onChange}
-                                                secureTextEntry
+
                                                 autoCapitalize="none"
                                             />
                                         )}

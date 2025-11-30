@@ -1,40 +1,39 @@
 import { SECONDARY_COLOR } from '@/constants/colors';
+import { useAuth } from '@/hooks/use-auth';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 type FormValues = {
     email: string;
     password: string;
-    confirmPassword: string;
 };
 
 export default function LoginScreen() {
-    const { control, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<FormValues>({
+    const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({
         defaultValues: {
             email: '',
             password: '',
-            confirmPassword: '',
         },
     });
     const router = useRouter();
-
-    const password = watch('password');
+    const [error, setError] = React.useState<string | null>(null);
+    const [isLoading, setIsLoading] = React.useState(false);
+    const { signIn } = useAuth();
 
     const onSubmit = async (data: FormValues) => {
-        if (data.password !== data.confirmPassword) {
-            Alert.alert('Error', 'Passwords do not match');
-            return;
-        }
+        console.log('Submitting login with data:', data);
         try {
-            // Placeholder: replace with API call
-            await new Promise(res => setTimeout(res, 900));
-            Alert.alert('Success', 'Account created');
-        } catch (e) {
-            Alert.alert('Error', 'Signup failed');
+            setIsLoading(true);
+            await signIn({ email: data.email, password: data.password });
+            router.push('/');
+        } catch (error) {
+            setError((error as Error).message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -62,6 +61,8 @@ export default function LoginScreen() {
                     >
                         <View className="my-12">
                             <Text className="text-4xl font-bold mb-8">Login</Text>
+
+                            {error && <Text className="text-red-500 text-xs mb-2">{error}</Text>}
 
                             {/* Email */}
                             <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Email</Text>
@@ -109,28 +110,6 @@ export default function LoginScreen() {
                             />
                             {errors.password && <Text className="text-red-500 text-xs mt-1">{errors.password.message}</Text>}
 
-                            {/* Confirm Password */}
-                            <Text className="text-md font-semibold text-gray-600 mt-5 mb-2">Confirm Password</Text>
-                            <Controller
-                                control={control}
-                                name="confirmPassword"
-                                rules={{
-                                    required: 'Confirm password',
-                                    validate: v => v === password || 'Passwords must match',
-                                }}
-                                render={({ field: { value, onChange, onBlur } }) => (
-                                    <TextInput
-                                        className="border border-gray-300 rounded-xl px-4 py-3 text-base"
-                                        placeholder="Repeat password"
-                                        value={value}
-                                        onBlur={onBlur}
-                                        onChangeText={onChange}
-                                        secureTextEntry
-                                        autoCapitalize="none"
-                                    />
-                                )}
-                            />
-                            {errors.confirmPassword && <Text className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</Text>}
 
                             {/* Submit */}
                             <TouchableOpacity

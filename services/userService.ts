@@ -1,14 +1,13 @@
-import { SignInData, SignUpData } from '../interfaces/users/interface';
+import { SignInData } from '../interfaces/users/interface';
 
 const BACKEND_URL = process.env.EXPO_PUBLIC_BACKEND_URL
 
 export const userAPI = {
-    signUp: async (data: SignUpData) => {
+    signUp: async (formData: any) => {
         const response = await fetch(`${BACKEND_URL}/api/v1/users/register`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify(data),
+            body: formData,
         });
 
         if (!response.ok) {
@@ -84,12 +83,11 @@ export const userAPI = {
         return response.json();
     },
 
-    updateProfile: async (data: Partial<SignUpData>) => {
+    updateProfile: async (formData: any) => {
         const response = await fetch(`${BACKEND_URL}/api/v1/users/me`, {
             method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
-            body: JSON.stringify(data),
+            body: formData,
         });
 
         if (!response.ok) {

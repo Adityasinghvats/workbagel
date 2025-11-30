@@ -71,37 +71,37 @@ export default function HomeScreen() {
               {/* Row 1 - 2 normal cards */}
               <CategoryCard
                 image={Icons.setting}
-                text="AC Service & Repair"
+                text="AIRCONDITIONING"
               />
               <CategoryCard
                 image={Icons.mechanic}
-                text="Appliance Repair & Service"
+                text="HOMEAPPLIANCEREPAIR"
               />
 
               {/* Row 2 - 2 normal cards */}
               <CategoryCard
-                image={Icons.drill}
-                text="Electrician & Plumber"
+                image={Icons.bathtub}
+                text="ELECTRICAL"
               />
               <CategoryCard
                 image={Icons.paintroller}
-                text="Full Home Makeover"
+                text="HOMEIMPROVEMENT"
               />
 
               {/* Row 3 - 3 small cards */}
               <CategoryCard
-                image={Icons.washingmachine}
-                text="Pest Control"
+                image={Icons.spiderweb}
+                text="PESTCONTROL"
                 size="small"
               />
               <CategoryCard
                 image={Icons.mechanic}
-                text="Gardening"
+                text="CLEANING"
                 size="small"
               />
               <CategoryCard
                 image={Icons.drill}
-                text="AC Repair"
+                text="CARPENTRY"
                 size="small"
               />
             </View>

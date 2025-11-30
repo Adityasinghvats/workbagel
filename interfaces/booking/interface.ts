@@ -8,6 +8,7 @@ export interface Booking {
     providerId: string;
     finalCost: string;
     status: 'COMPLETED' | 'PENDING' | 'CANCELLED' | string;
+    paymentStatus: boolean;
     createdAt: string;
     updatedAt: string;
     client: {

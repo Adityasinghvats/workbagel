@@ -92,7 +92,7 @@ export default function ManageSlots() {
                         </View>
                     </View>
                     <View style={styles.buttonContainer}>
-                        {["All", "Open", "Closed", "Active"].map((label, index) => (
+                        {["All", "Available", "Booked"].map((label, index) => (
                             <TouchableOpacity
                                 key={index}
                                 style={[

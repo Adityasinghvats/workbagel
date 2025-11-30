@@ -10,6 +10,25 @@ interface CategoryCardProps {
     size?: 'normal' | 'small';
 }
 
+const getCardText = (text: string) => {
+    switch (text) {
+        case 'AIRCONDITIONING':
+            return 'AC Service & Repair';
+        case 'HOMEAPPLIANCEREPAIR':
+            return 'Appliance Repair & Service';
+        case 'ELECTRICAL':
+            return 'Electrician & Plumber';
+        case 'HOMEIMPROVEMENT':
+            return 'Full Home Makeover';
+        case 'PESTCONTROL':
+            return 'Pest Control';
+        case 'CLEANING':
+            return 'Cleaning & Gardening';
+        case 'CARPENTRY':
+            return 'Carpentry & Woodwork';
+    }
+}
+
 export default function CategoryCard({ image, text, onPress, size = 'normal' }: CategoryCardProps) {
     const router = useRouter();
     const handlePress = () => {
@@ -39,7 +58,7 @@ export default function CategoryCard({ image, text, onPress, size = 'normal' }: 
                 <Image source={image} style={{ width: iconSize, height: iconSize }} resizeMode='contain' />
             </View>
             <Text style={[styles.text, size === 'small' && styles.textSmall]} numberOfLines={2}>
-                {text}
+                {getCardText(text) || text}
             </Text>
         </TouchableOpacity>
     );
@@ -76,7 +95,7 @@ const styles = StyleSheet.create({
         borderRadius: 24,
     },
     text: {
-        fontSize: 14,
+        fontSize: 12,
         fontWeight: '600',
         color: Colors.text.primary,
         textAlign: 'center',

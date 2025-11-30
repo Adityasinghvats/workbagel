@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useAuthStore } from '@/store/authStore';
+import { SignInData } from '@/interfaces/users/interface';
 import { userAPI } from '@/services/userService';
-import { SignInData, SignUpData } from '@/interfaces/users/interface';
+import { useAuthStore } from '@/store/authStore';
+import { useEffect } from 'react';
 
 export function useAuth() {
     const { session, isLoading, setSession, setIsLoading, clearSession } = useAuthStore();
@@ -24,7 +24,7 @@ export function useAuth() {
         checkSession();
     }, [setSession, clearSession]);
 
-    const signUp = async (data: SignUpData) => {
+    const signUp = async (data: any) => {
         setIsLoading(true);
         try {
             const result = await userAPI.signUp(data);

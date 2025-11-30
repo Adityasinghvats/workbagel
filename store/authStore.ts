@@ -1,7 +1,8 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { User } from '@/interfaces/users/interface';
+import * as SecureStore from 'expo-secure-store'
 
 interface Session {
     user: User;
@@ -21,6 +22,12 @@ interface AuthState {
     updateUser: (user: Partial<User>) => void;
     hydrated?: boolean;
     setHydrated: () => void;
+}
+
+const secureStorage = {
+    getItem: (name: string) => SecureStore.getItemAsync(name),
+    setItem: (name: string, value: string) => SecureStore.setItemAsync(name, value),
+    removeItem: (name: string) => SecureStore.deleteItemAsync(name),
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -45,6 +52,7 @@ export const useAuthStore = create<AuthState>()(
         })),
         {
             name: 'auth-storage',
+            storage: createJSONStorage(() => secureStorage),
             onRehydrateStorage() {
                 return (state, error) => {
                     if (!error) state?.setHydrated();

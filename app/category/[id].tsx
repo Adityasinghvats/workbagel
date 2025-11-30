@@ -9,6 +9,63 @@ import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react
 import Animated, { FadeInDown } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+const getCardText = (text: string) => {
+    switch (text) {
+        case 'AIRCONDITIONING':
+            return 'AC Service & Repair';
+        case 'HOMEAPPLIANCEREPAIR':
+            return 'Appliance Repair & Service';
+        case 'ELECTRICAL':
+            return 'Electrician & Plumber';
+        case 'HOMEIMPROVEMENT':
+            return 'Full Home Makeover';
+        case 'PESTCONTROL':
+            return 'Pest Control';
+        case 'CLEANING':
+            return 'Cleaning & Gardening';
+        case 'CARPENTRY':
+            return 'Carpentry & Woodwork';
+    }
+}
+
+const getCardImage = (text: string) => {
+    switch (text) {
+        case 'AIRCONDITIONING':
+            return Icons.setting;
+        case 'HOMEAPPLIANCEREPAIR':
+            return Icons.mechanic;
+        case 'ELECTRICAL':
+            return Icons.bathtub;
+        case 'HOMEIMPROVEMENT':
+            return Icons.paintroller;
+        case 'PESTCONTROL':
+            return Icons.spiderweb;
+        case 'CLEANING':
+            return Icons.mechanic;
+        case 'CARPENTRY':
+            return Icons.drill;
+    }
+}
+
+const categoryDescription = (text: string) => {
+    switch (text) {
+        case 'AIRCONDITIONING':
+            return 'Professional air conditioning services including installation, repair, and maintenance for residential and commercial properties.';
+        case 'HOMEAPPLIANCEREPAIR':
+            return 'Expert appliance repair services for refrigerators, washing machines, ovens, and more to keep your home running smoothly.';
+        case 'ELECTRICAL':
+            return 'Certified electricians providing safe and reliable electrical services including wiring, lighting, and repairs.';
+        case 'HOMEIMPROVEMENT':
+            return 'Comprehensive home improvement solutions including remodeling, renovations, and custom projects to enhance your living space.';
+        case 'PESTCONTROL':
+            return 'Effective pest control services to protect your home from insects, rodents, and other unwanted guests.';
+        case 'CLEANING':
+            return 'Professional cleaning and gardening services to maintain a clean and beautiful home environment.';
+        case 'CARPENTRY':
+            return 'Skilled carpentry services for custom woodwork, furniture repair, and home improvements.';
+    }
+}
+
 const sampleTasks: Task[] = [
     {
         id: '1',
@@ -61,18 +118,6 @@ export default function CategoryDetailsScreen() {
     const { id } = useLocalSearchParams<{ id: string }>();
     const router = useRouter();
 
-    // Mock task data - replace with actual data fetching
-    const task = {
-        id: id,
-        title: 'Complete Project Documentation',
-        description: 'Create comprehensive documentation for the new feature including API endpoints, user guides, and technical specifications.',
-        status: 'Open',
-        priority: 'High',
-        dueDate: '2024-03-15',
-        assignee: 'John Doe',
-        createdDate: '2024-03-01',
-        category: 'Documentation',
-    };
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
             {/* Header */}
@@ -84,8 +129,6 @@ export default function CategoryDetailsScreen() {
                     <Ionicons name="arrow-back" size={24} color={SECONDARY_COLOR} />
                 </TouchableOpacity>
             </View>
-
-
 
             {/* Details Grid */}
             <Animated.View
@@ -111,16 +154,10 @@ export default function CategoryDetailsScreen() {
                                 className='pb-6'
                             >
                                 <View className='bg-gray-200 rounded-3xl w-28 h-28 items-center justify-center mb-4'>
-                                    <Image source={Icons.setting} className='w-20 h-20' resizeMode='contain' />
+                                    <Image source={getCardImage(id)} className='w-20 h-20' resizeMode='contain' />
                                 </View>
-                                <Text className='text-3xl font-bold mb-4'>{id}</Text>
-                                <View className='flex-row items-center gap-2'>
-                                    <Ionicons name="location-outline" size={20} color={PRIMARY_COLOR} />
-                                    {/* <Star color={PRIMARY_COLOR} size={20} /> */}
-                                    <Text className='text-lg'>{4.9}</Text>
-                                    <Text className='text-lg'>{`(10,000+ bookings)`}</Text>
-                                    <Text className='text-md text-gray-600'>{`New York, NY, USA`}</Text>
-                                </View>
+                                <Text className='text-3xl font-bold mb-2'>{getCardText(id)}</Text>
+                                <Text style={styles.description}>{categoryDescription(id)}</Text>
                             </Animated.View>
                             <View className='h-[0.5px] bg-gray-300 mb-6'></View>
                             {/* Description */}
@@ -128,8 +165,7 @@ export default function CategoryDetailsScreen() {
                                 entering={FadeInDown.delay(200).duration(300)}
                                 className='pb-6'
                             >
-                                <Text className='text-2xl font-bold mb-2'>Technicians</Text>
-                                <Text style={styles.description}>{task.description}</Text>
+                                <Text className='text-2xl font-bold'>Technicians</Text>
                             </Animated.View>
                         </>
                     }
